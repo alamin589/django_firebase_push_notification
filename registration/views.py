@@ -7,7 +7,7 @@ from firebase_admin import credentials, messaging
 from django.http import JsonResponse
 
 # Initialize Firebase Admin SDK (you should have the JSON key file)
-cred = credentials.Certificate("/home/alamin/Downloads/fir-notification-1a046-firebase-adminsdk-uh2jp-c59187320e.json")
+cred = credentials.Certificate("/")
 firebase_admin.initialize_app(cred)
 
 def send_notification_to_user(fcm_token, username, title, body, sender_username):
@@ -213,7 +213,7 @@ def login_view(request):
 # from firebase_admin import messaging
 
 # def is_valid_fcm_token(token):
-#     fcm_api = "AAAACLYHltQ:APA91bGzBsFKZcCOvS7zmuCIJHxipXkOgnZhbDanaK-DESE_AMq0MenF4uHDSMgO2t-Ia0YJiN0NSrvAJxmejN8-cOqTfl10iqqCpN6M9Ki2qIrdy3BwAwgT4hVEmbx_LwNT27vBTU8V"  # Replace with your FCM API key
+#     fcm_api = ":--"  # Replace with your FCM API key
 #     url = "https://fcm.googleapis.com/fcm/send"
 
 #     headers = {
@@ -251,7 +251,7 @@ def login_view(request):
 
 
 # def send_notification(sender_id, message_title, message_desc, receivers):
-#     fcm_api = "AAAACLYHltQ:APA91bGzBsFKZcCOvS7zmuCIJHxipXkOgnZhbDanaK-DESE_AMq0MenF4uHDSMgO2t-Ia0YJiN0NSrvAJxmejN8-cOqTfl10iqqCpN6M9Ki2qIrdy3BwAwgT4hVEmbx_LwNT27vBTU8V"  # Replace with your FCM API key
+#     fcm_api = ":---"  # Replace with your FCM API key
 #     url = "https://fcm.googleapis.com/fcm/send"
 
 #     headers = {
@@ -332,19 +332,5 @@ def login_view(request):
 #     return render(request, 'login.html', {'form': form})
 
 
-# {% block content %}
-#   <h2>Registration</h2>
-#   <form method="post">
-#     {% csrf_token %}
-#     {{ form.as_p }}
-#     <button type="submit">Register</button>
-#   </form>
-# {% endblock %}
 
-# [07/Nov/2023 09:44:13] "GET /admin/jsi18n/ HTTP/1.1" 200 3343
-# Forbidden (CSRF token from POST incorrect.): /reg/register/
-# [07/Nov/2023 09:44:25] "POST /reg/register/ HTTP/1.1" 403 2518
-# Forbidden (CSRF token from POST incorrect.): /reg/register/
-# [07/Nov/2023 09:44:29] "POST /reg/register/ HTTP/1.1" 403 2518
-# Forbidden (CSRF token from POST incorrect.): /reg/register/
-# [07/Nov/2023 09:44:34] "POST /reg/register/ HTTP/1.1" 403 2518
+
