@@ -1,0 +1,144 @@
+{% block content %}
+  <h2>Registration</h2>
+  <form method="post" id="registration-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="hidden" name="fcm_token" id="fcm-token" value="">
+    <button type="submit">Register</button>
+  </form>
+</div>
+  
+<script src="https://www.gstatic.com/firebasejs/8.6.3/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.3/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.3/firebase-messaging.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyB6jQo8ZTK9zozcrBLeUEhr8b0VqW8wzIg",
+    authDomain: "fir-notification-1a046.firebaseapp.com",
+    databaseURL: "https://fir-notification-1a046-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "fir-notification-1a046",
+    storageBucket: "fir-notification-1a046.appspot.com",
+    messagingSenderId: "37413689044",
+    appId: "1:37413689044:web:3e2f4ac0758af5f8048d41",
+    measurementId: "G-28CQ98BKMV"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+
+  const messaging = firebase.messaging();
+
+  // Request permission and get FCM token when the user clicks the Register button
+  document.getElementById('registration-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+    messaging
+      .requestPermission()
+      .then(function () {
+        console.log("Notification permission granted.");
+        return messaging.getToken();
+      })
+      .then(function (currentToken) {
+        if (currentToken) {
+          // Update the hidden input field with the FCM token
+          document.getElementById('fcm-token').value = currentToken;
+          console.log('FCM token:', currentToken);
+          // Continue with form submission
+          document.getElementById('registration-form').submit();
+        } else {
+          console.log('No registration token available. Request permission to generate one.');
+        }
+      })
+      .catch(function (err) {
+        console.log("Unable to get permission to notify.", err);
+      });
+  });
+
+  messaging.onMessage((payload) => {
+    console.log('Message received. ', payload);
+  });
+</script>
+{% endblock %}
+
+
+
+
+
+
+
+  
+
+  {% comment %} <script>
+    // Initialize Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyB6jQo8ZTK9zozcrBLeUEhr8b0VqW8wzIg",
+      authDomain: "fir-notification-1a046.firebaseapp.com",
+      databaseURL: "https://fir-notification-1a046-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "fir-notification-1a046",
+      storageBucket: "fir-notification-1a046.appspot.com",
+      messagingSenderId: "37413689044",
+      appId: "1:37413689044:web:3e2f4ac0758af5f8048d41",
+      measurementId: "G-28CQ98BKMV"
+    };
+    firebase.initializeApp(firebaseConfig);
+  
+    // Get the FCM token and update the hidden input field
+    const messaging = firebase.messaging();
+    messaging
+      .getToken()
+      .then(function (currentToken) {
+        if (currentToken) {
+          // Update the hidden input field with the FCM token
+          document.getElementById('fcm-token').value = currentToken;
+          console.log('FCM token:', currentToken); 
+        } else {
+          console.log("No FCM token available.");
+        }
+      })
+      .catch(function (err) {
+        console.error("Error retrieving FCM token: ", err);
+      });
+  
+    // Handle the form submission
+    const registrationForm = document.getElementById('registration-form');
+    registrationForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+  
+      // Send the FCM token to your Django server via AJAX
+      const fcmToken = document.getElementById('fcm-token').value;
+      const formData = new FormData(registrationForm);
+      formData.append('fcm_token', fcmToken);
+  
+      fetch('/reg/register/', {
+        method: 'POST',
+        body: formData,
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response from your Django server, e.g., display a success message
+          console.log(data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    });
+  </script> {% endcomment %}
+{% comment %} </div>
+{% endblock %} {% endcomment %}
+
+
+
+
+
+
+
+
+{% comment %} {% block content %}
+  <h2>Registration</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Register</button>
+  </form>
+{% endblock %} {% endcomment %}

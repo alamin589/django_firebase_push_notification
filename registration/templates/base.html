@@ -1,0 +1,61 @@
+#base.html
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Web App</title>
+</head>
+<body>
+
+<!-- Add the Firebase JavaScript SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-messaging.js"></script>
+
+<script type="module">
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyB6jQo8ZTK9zozcrBLeUEhr8b0VqW8wzIg",
+      authDomain: "fir-notification-1a046.firebaseapp.com",
+      databaseURL: "https://fir-notification-1a046-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "fir-notification-1a046",
+      storageBucket: "fir-notification-1a046.appspot.com",
+      messagingSenderId: "37413689044",
+      appId: "1:37413689044:web:3e2f4ac0758af5f8048d41",
+      measurementId: "G-28CQ98BKMV"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const analytics = firebase.analytics();
+
+    // Initialize Firebase Messaging
+    const messaging = firebase.messaging();
+    messaging.usePublicVapidKey("BJX8p3p0XdKFwGjlqdKNRj9o3TOB-iPQToKly0882eDYhfdof26028MrxBKUx05NNw1v4MjQdqfOdA3ohfn0oQY");
+
+    // Request permission to receive push notifications
+    messaging.requestPermission()
+        .then(function () {
+            console.log("Notification permission granted.");
+            return messaging.getToken();
+        })
+        .then(function (token) {
+            console.log("FCM Token:", token);
+
+            // Now you have the FCM token, you can save it to your server or use it to send notifications.
+        })
+        .catch(function (error) {
+            console.error("Error getting FCM token:", error);
+        });
+
+    // Handle incoming messages when your web app is in the foreground
+    messaging.onMessage(function (payload) {
+        console.log("Message received in the foreground:", payload);
+        // You can display the notification to the user or perform custom actions.
+    });
+</script>
+
+<!-- Your content goes here -->
+
+</body>
+</html>
