@@ -4,7 +4,7 @@ from .forms import RegistrationForm, LoginForm
 import firebase_admin
 from firebase_admin import credentials, messaging
 from django.http import JsonResponse
-
+from django.http import HttpResponse
 cred = credentials.Certificate("/home/alamin/Downloads/fir-notification-1a046-firebase-adminsdk-uh2jp-c59187320e.json")
 firebase_admin.initialize_app(cred)
 
@@ -63,3 +63,30 @@ def login_view(request):
         form = LoginForm()
 
     return render(request, 'login.html', {'form': form})
+
+def showFirebaseJS(request):
+    data = 'importScripts("https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js");' \
+           'importScripts("https://www.gstatic.com/firebasejs/8.2.0/firebase-messaging.js"); ' \
+           'var firebaseConfig = {' \
+           '        apiKey: "AIzaSyB6jQo8ZTK9zozcrBLeUEhr8b0VqW8wzIg",' \
+           '        authDomain: "fir-notification-1a046.firebaseapp.com",' \
+           '        databaseURL: "https://fir-notification-1a046-default-rtdb.asia-southeast1.firebasedatabase.app",' \
+           '        projectId: "fir-notification-1a046",' \
+           '        storageBucket: "fir-notification-1a046.appspot.com",' \
+           '        messagingSenderId: "37413689044",' \
+           '        appId: "1:37413689044:web:3e2f4ac0758af5f8048d41",' \
+           '        measurementId: "G-28CQ98BKMV"' \
+           ' };' \
+           'firebase.initializeApp(firebaseConfig);' \
+           'const messaging = firebase.messaging();' \
+           'messaging.onBackgroundMessage(function (payload) {' \
+           '    console.log(payload);' \
+           '    const notification = payload;' \
+           '    const notificationOptions = {' \
+           '        body: notification.data.body,' \
+           '        icon: notification.data.icon' \
+           '    };' \
+           '    return self.registration.showNotification(payload.notification.title, notificationOptions);' \
+           '});'
+
+    return HttpResponse(data, content_type="text/javascript")
